@@ -1,0 +1,37 @@
+seed: 42
+experiment_name: tuned_ppo_spy
+algorithm: PPO
+task: trading
+total_timesteps: 300000
+eval_episodes: 1
+artifact_dir: artifacts/models
+report_dir: artifacts/reports
+log_dir: logs
+device: auto
+
+ppo:
+  n_steps: 504                    # collect one full 2yr episode before updating
+  batch_size: 63                  # factor of 504 to avoid truncated mini-batches
+  learning_rate: 0.0003
+  ent_coef: 0.03                  # modest entropy; ent_coef=0.15 was too high, kept policy near-random
+  gamma: 0.99
+
+market_data:
+  ticker: SPY
+  start: 2018-01-01
+  end: 2026-01-31
+  interval: 1d
+  output_csv: data/raw/spy_1d.csv
+
+trading_env:
+  window_size: 20
+  train_ratio: 0.8
+  trading_cost: 0.0005            # halved so switching is less expensive vs holding
+  drawdown_penalty: 0.15          # strong penalty for new drawdowns
+  holding_penalty: 0.0003         # cost of holding any position - incentivise going flat
+  trend_reward_coef: 0.00015      # trend bonus is now decoupled from holding penalty
+  episode_length: 504             # 2 trading years - covers both bull and bear regimes
+  randomize_start: true
+  reward_scale: 100.0
+  moving_average_short: 5
+  moving_average_long: 20

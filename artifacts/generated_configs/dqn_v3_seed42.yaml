@@ -1,0 +1,42 @@
+seed: 42
+experiment_name: dqn_v3_seed42
+algorithm: DQN
+task: trading
+total_timesteps: 80000
+eval_episodes: 1
+artifact_dir: artifacts/models
+report_dir: artifacts/reports
+log_dir: logs
+device: auto
+policy_kwargs:
+  net_arch:
+  - 128
+  - 128
+dqn:
+  buffer_size: 120000
+  learning_rate: 0.0002
+  exploration_fraction: 0.75
+  exploration_final_eps: 0.02
+  learning_starts: 2000
+  train_freq: 4
+  target_update_interval: 1000
+  gamma: 0.995
+market_data:
+  ticker: SPY
+  start: 2018-01-01
+  end: 2026-01-31
+  interval: 1d
+  output_csv: data/raw/spy_1d.csv
+trading_env:
+  window_size: 40
+  train_ratio: 0.8
+  trading_cost: 0.0005
+  drawdown_penalty: 0.12
+  holding_penalty: 5.0e-05
+  trend_reward_coef: 0.0002
+  episode_length: 756
+  randomize_start: true
+  reward_scale: 100.0
+  moving_average_short: 10
+  moving_average_long: 40
+  moving_average_allow_short: true

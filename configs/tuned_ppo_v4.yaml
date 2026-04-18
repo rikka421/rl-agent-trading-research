@@ -1,0 +1,42 @@
+seed: 42
+experiment_name: tuned_ppo_v4_spy
+algorithm: PPO
+task: trading
+total_timesteps: 450000
+eval_episodes: 1
+artifact_dir: artifacts/models
+report_dir: artifacts/reports
+log_dir: logs
+device: auto
+
+# Larger policy network for richer regime representation.
+policy_kwargs:
+  net_arch: [128, 128]
+
+ppo:
+  n_steps: 756
+  batch_size: 84
+  learning_rate: 0.0002
+  ent_coef: 0.01
+  gamma: 0.995
+
+market_data:
+  ticker: SPY
+  start: 2018-01-01
+  end: 2026-01-31
+  interval: 1d
+  output_csv: data/raw/spy_1d.csv
+
+trading_env:
+  window_size: 40
+  train_ratio: 0.8
+  trading_cost: 0.0005
+  drawdown_penalty: 0.12
+  holding_penalty: 0.00005
+  trend_reward_coef: 0.0002
+  episode_length: 756
+  randomize_start: true
+  reward_scale: 100.0
+  moving_average_short: 10
+  moving_average_long: 40
+  moving_average_allow_short: true
