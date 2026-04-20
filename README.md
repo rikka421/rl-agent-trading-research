@@ -107,3 +107,4 @@ See `docs/trading_results_2026-04-18.md` for the current run summary.
 ## 7) Resume Date Alignment
 
 - For resume consistency, the RL-Agent project period is standardized as 2025.10 - 2026.01.
+- Timeline clarification: the core RL-Agent project work started in 2025, while the current repository version mainly reflects later optimization, refactoring, and incremental improvements.
